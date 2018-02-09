@@ -65,7 +65,7 @@ functions:
 # 🤔 Anything Else
 I wrote article about this BOT.
 
-[ポするとプテピピックするサーバレスBOTを作った - Qiita](https://qiita.com/9c088bde87b9367f5414)
+[ポするとプテピピックするサーバレスBOTを作りました - Qiita](https://qiita.com/saitotak/items/9c088bde87b9367f5414)
 
 # 🐑 Author
 [saitotak](https://qiita.com/saitotak)
