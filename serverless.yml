@@ -1,0 +1,20 @@
+service: SlackServerlessReactionBot
+provider:
+  name: aws
+  runtime: python3.6
+  stage: prod
+  region: ap-northeast-1
+  environment:
+    OAUTH_TOKEN: 'xoxp-000000000000-000000000000-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x'
+    BOT_TOKEN: 'xoxb-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x'
+    HOOK_REACTION: '+1'
+    ADD_REACTIONS: 'confetti_ball,clap,congratulations,dart,join,tada,tea,:heartbeat,joy,joy_cat,heart_eyes,i_love_you_hand_sign,medal,hatching_chick,woman-gesturing-ok' #separate with comma
+#    HOOK_REACTION: 'popteamepic-po'
+#    ADD_REACTIONS: 'popteamepic-pu,popteamepic-te,popteamepic-pi1,popteamepic-pi2,popteamepic-tsu,popteamepic-ku'
+functions:
+  fnc:
+    handler: main.handler
+    events:
+      - http:
+          path: /
+          method: POST

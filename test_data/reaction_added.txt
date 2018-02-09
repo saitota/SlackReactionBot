@@ -1,0 +1,27 @@
+POST https://0x0x0x0x0x.execute-api.ap-northeast-1.amazonaws.com/prod
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+    "token": "xxxxxxxxxxxxxxxxxxxxxx",
+    "team_id": "Txxxxxxxx",
+    "api_app_id": "Axxxxxxxx",
+    "event": {
+        "type": "reaction_added",
+        "user": "Uxxxxxxxx",
+        "item": {
+            "type": "message",
+            "channel": "Cxxxxxxxx",
+            "ts": "1000000000.000001"
+        },
+        "reaction": "joy",
+        "item_user": "Uxxxxxxxx",
+        "event_ts": "1000000000.000001"
+    },
+    "type": "event_callback",
+    "event_id": "Evxxxxxxxx",
+    "event_time": 1000000000,
+    "authed_users": [
+        "Uxxxxxxxx"
+    ]
+}
