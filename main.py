@@ -19,6 +19,14 @@ def event_to_json(event):
         logger.error('unexpected event format')
         exit
 
+class ChallangeJson(object):
+     def data(self,key):
+          return {
+            'isBase64Encoded': 'true',
+            'statusCode': 200,
+            'headers': {},
+            'body': key
+        }
 
 def handler(event, context):
     #getenv
@@ -30,7 +38,12 @@ def handler(event, context):
     # Output the received event to the log
     # logging.info(json.dumps(event))
     body = event_to_json(event)
-
+    # return if it was challange-event
+    if 'challenge' in body:
+        challenge_key = body.get('challenge')
+        logging.info('return challenge key %s:', challenge_key)
+        return ChallangeJson().data(challenge_key)
+        
     #url_verificationイベントに返す
     if 'challenge' in body:
         challenge = body.get('challenge')
