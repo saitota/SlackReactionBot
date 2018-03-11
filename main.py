@@ -43,17 +43,7 @@ def handler(event, context):
         challenge_key = body.get('challenge')
         logging.info('return challenge key %s:', challenge_key)
         return ChallangeJson().data(challenge_key)
-        
-    #url_verificationイベントに返す
-    if 'challenge' in body:
-        challenge = body.get('challenge')
-        logging.info('return challenge key %s:', challenge)
-        return {
-            'isBase64Encoded': 'true',
-            'statusCode': 200,
-            'headers': {},
-            'body': challenge
-        }
+
     # 特定のリアクションだったら
     if body.get('event').get('reaction') == HOOK_REACTION:
         # add か remove か決める
