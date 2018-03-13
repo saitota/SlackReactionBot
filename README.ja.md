@@ -1,4 +1,4 @@
-﻿# 🤖 Slack Serverless Reaction Bot
+﻿# 🤖 Slack Reaction Bot
 Slack の特定の Reaction に反応し、Reactionで反応し返してくれるサーバレスBOTです。
 
 ***DEMO:***
@@ -38,21 +38,21 @@ $ git clone https://github.com/saitota/SlackServerlessReactionBot.git
 ```
 
 4. Serverless の設定ファイルを編集、先程のトークンで書き換えてください
-``` sererless.yml
+``` enviroment_dev.yml
 OAUTH_TOKEN: 'xoxp-000000000000-000000000000-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x'
 BOT_TOKEN: 'xoxb-000000000000-0x0x0x0x0x0x0x'
 ```
 
 5. Serverless Framework でデプロイ (事前にaws-cliの初期設定が必要です)
 ```
-$ sls deploy ./SlackServerlessReactionBot
+$ sls deploy ./SlackReactionBot
 ...
 api keys:
   None
 endpoints:
-  POST - https://0x0x0x0x0x.execute-api.ap-northeast-1.amazonaws.com/prod/
+  POST - https://0x0x0x0x0x.execute-api.ap-northeast-1.amazonaws.com/dev/
 functions:
-  fnc: SlackServerlessReactionBot-prod-fnc
+  fnc: SlackReactionBot-dev-fnc
 ```
 6. Slack BOT のエンドポイント設定と、Subscribe設定をします
     - Event Subscriptions
@@ -61,7 +61,7 @@ functions:
         - reaction_added
         - reaction_removed
 
-7. 設定完了！Slackで `HOOK_REACTION` のリアクション（デフォルトは👍）をつけてみましょう
+7. 設定完了！Slackで `HOOK_REACTIONS` の1stリアクション（デフォルトは1️⃣）をつけてみましょう
 
 # 🤔 Anything Else
 この BOT に関する記事を書きました。

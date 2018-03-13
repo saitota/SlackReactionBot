@@ -1,4 +1,4 @@
-﻿# 🤖 Slack Serverless Reaction Bot
+﻿# 🤖 Slack Reaction Bot
 It is a serverless BOT that responds to Slack's specific Reaction and responds with lot of Reactions.
 
 ***DEMO:***
@@ -36,22 +36,22 @@ Slack BOT needs to be create manually, but AWS side automates environment constr
 $ git clone https://github.com/saitota/SlackServerlessReactionBot.git
 ```
 
-4. Modify sererless.yml 's two TOKEN to your token.
-``` sererless.yml
+4. Modify enviroment_dev.yml 's two TOKEN to your token.
+``` enviroment_dev.yml
 OAUTH_TOKEN: 'xoxp-000000000000-000000000000-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x'
 BOT_TOKEN: 'xoxb-000000000000-0x0x0x0x0x0x0x'
 ```
 
 5. Deploy with Serverless Framework (you must aws-cli initialize before)
 ```
-$ sls deploy ./SlackServerlessReactionBot
+$ sls deploy ./SlackReactionBot
 ...
 api keys:
   None
 endpoints:
-  POST - https://0x0x0x0x0x.execute-api.ap-northeast-1.amazonaws.com/prod/
+  POST - https://0x0x0x0x0x.execute-api.ap-northeast-1.amazonaws.com/dev/
 functions:
-  fnc: SlackServerlessReactionBot-prod-fnc
+  fnc: SlackReactionBot-dev-fnc
 ```
 6. Set Slack BOT endpoint and event subscribe settings 
     - Event Subscriptions
@@ -60,7 +60,7 @@ functions:
         - reaction_added
         - reaction_removed
 
-7. Done! try to add Reaction at `HOOK_REACTION` (👍 is the default)
+7. Done! let's add Reaction at 1st of the `HOOK_REACTIONS` ( 1️⃣ is the default)
 
 # 🤔 Anything Else
 I wrote article about this BOT.
