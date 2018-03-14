@@ -34,7 +34,7 @@ Slack BOT は手動で設定する必要がありますが、AWS 側は Serverle
 
 3. リポジトリをClone
 ```
-$ git clone https://github.com/saitota/SlackServerlessReactionBot.git
+$ git clone https://github.com/saitota/SlackReactionBot.git
 ```
 
 4. Serverless の設定ファイルを編集、先程のトークンで書き換えてください

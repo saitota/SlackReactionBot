@@ -33,7 +33,7 @@ Slack BOT needs to be create manually, but AWS side automates environment constr
 
 3. Clone this repo.
 ```
-$ git clone https://github.com/saitota/SlackServerlessReactionBot.git
+$ git clone https://github.com/saitota/SlackReactionBot.git
 ```
 
 4. Modify enviroment_dev.yml 's two TOKEN to your token.
