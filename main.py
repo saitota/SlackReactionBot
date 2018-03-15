@@ -8,7 +8,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def event_to_json(event):
+def event_to_dict(event):
     if 'body' in event:
         body = json.loads(event.get('body'))
         return body
@@ -29,86 +29,103 @@ class ChallangeJson(object):
             'body': key
         }
 
+class PostData(object):
+    def __init__(self):
+        self.BOT_TOKEN = os.environ['BOT_TOKEN']
+        self.OAUTH_TOKEN = os.environ['OAUTH_TOKEN']
+
+    def headers(self):
+        return {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer {0}'.format(self.BOT_TOKEN)
+        }
+
+    def data(self, channel,ts,emoji):
+        return {
+            'token': self.OAUTH_TOKEN,
+            'channel': channel,
+            'timestamp': ts,
+            'name': emoji
+        }
 
 def handler(event, context):
     #getenv
-    OAUTH_TOKEN = os.environ['OAUTH_TOKEN']
-    BOT_TOKEN = os.environ['BOT_TOKEN']
-    #HOOK_REACTION = os.environ['HOOK_REACTION']
     HOOK_REACTIONS = os.environ['HOOK_REACTIONS']
     # Output the received event to the log
     logging.info(json.dumps(event))
-    body = event_to_json(event)
+    body = event_to_dict(event)
+
     # return if it was challange-event
     if 'challenge' in body:
         challenge_key = body.get('challenge')
         logging.info('return challenge key %s:', challenge_key)
         return ChallangeJson().data(challenge_key)
+
     # define reaction
     emojis = HOOK_REACTIONS.split(',')
+
     if body.get('event').get('reaction') in emojis:
         logger.info('hit: %s', body.get('event').get('reaction'))
 
-        headers = {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer {0}'.format(BOT_TOKEN)
-        }
+        postdata = PostData()
 
         # added 1st reaction
         if body.get('event').get('type') == 'reaction_added':
-            url = 'https://slack.com/api/reactions.add'
+            # 1st emoji has added 
             if body.get('event').get('reaction') == emojis[0] and body.get(
                     'event').get('user', '') != 'U9KRXEKLG':
-                logger.info('human added 1st reaction')
-                print('set 1st emoji')
-                print(emojis[1])
-                data = {
-                    'token': OAUTH_TOKEN,
-                    'channel': body.get('event').get('item').get('channel'),
-                    'timestamp': body.get('event').get('item').get('ts'),
-                    'name': emojis[1]
-                }
+
+                logger.info('1st emoji has added, set 2nd emoji: %s', emojis[1])
+                post_head = postdata.headers()
+                post_data = postdata.data(body.get('event').get('item').get('channel'),body.get('event').get('item').get('ts'),emojis[1])
+            
+            # the 2nd and the subsequent emoji has added 
             if body.get('event').get('reaction') in emojis and body.get(
                     'event').get('reaction') != emojis[0] and body.get(
                         'event').get('user', '') == 'U9KRXEKLG':
-                logger.info('bot added 2st or later reaction')
+
+                logger.info('the 2nd and the subsequent emoji has added')
                 last_count = len(emojis) - 1
                 this_count = emojis.index(body.get('event').get('reaction'))
                 if (this_count != last_count):
-                    logger.info('add: %s', emojis[this_count + 1])
-                    data = {
-                        'token': OAUTH_TOKEN,
-                        'channel':
-                        body.get('event').get('item').get('channel'),
-                        'timestamp': body.get('event').get('item').get('ts'),
-                        'name': emojis[this_count + 1]
-                    }
+                    logger.info('bot will add: %s', emojis[this_count + 1])
+                    post_head = postdata.headers()
+                    post_data = postdata.data(body.get('event').get('item').get('channel'),body.get('event').get('item').get('ts'),emojis[this_count + 1])
+
+            print(json.dumps(post_head))
+            print(json.dumps(post_data))
+            url = 'https://slack.com/api/reactions.add'
             req = urllib.request.Request(
                 url,
-                data=json.dumps(data).encode('utf-8'),
+                data=json.dumps(post_data).encode('utf-8'),
                 method='POST',
-                headers=headers)
+                headers=post_head)
             res = urllib.request.urlopen(req)
             logger.info('post result: %s', res.msg)
+
+        # 1st emoji has removed
         elif body.get('event').get('type') == 'reaction_removed' and body.get(
                 'event').get('reaction') in emojis[0]:
-            logger.info('human removed 1st reaction')
+
+            logger.info('1st emoji has removed')
             url = 'https://slack.com/api/reactions.remove'
-            for e in emojis:
-                logger.info('remove: %s', e)
-                data = {
-                    'token': OAUTH_TOKEN,
-                    'channel': body.get('event').get('item').get('channel'),
-                    'timestamp': body.get('event').get('item').get('ts'),
-                    'name': e
-                }
-                # remove処理
+            for emoji in emojis:
+                logger.info('remove: %s', emoji)
+
+                post_head = postdata.headers()
+                post_data = postdata.data(body.get('event').get('item').get('channel'),body.get('event').get('item').get('ts'),emoji)
+
+                print(json.dumps(post_head))
+                print(json.dumps(post_data))
+
                 req = urllib.request.Request(
                     url,
-                    data=json.dumps(data).encode('utf-8'),
+                    data=json.dumps(post_data).encode('utf-8'),
                     method='POST',
-                    headers=headers)
+                    headers=post_head)
+                    
                 res = urllib.request.urlopen(req)
                 logger.info('post result: %s', res.msg)
+
         return {'statusCode': 200, 'body': 'ok'}
     return {'statusCode': 200, 'body': 'quit'}
