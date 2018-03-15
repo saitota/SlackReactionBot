@@ -51,6 +51,7 @@ class PostData(object):
 def handler(event, context):
     #getenv
     HOOK_REACTIONS = os.environ['HOOK_REACTIONS']
+    BOT_USER = os.environ['BOT_USER']
     # Output the received event to the log
     logging.info(json.dumps(event))
     body = event_to_dict(event)
@@ -73,7 +74,7 @@ def handler(event, context):
         if body.get('event').get('type') == 'reaction_added':
             # 1st emoji has added 
             if body.get('event').get('reaction') == emojis[0] and body.get(
-                    'event').get('user', '') != 'U9KRXEKLG':
+                    'event').get('user', '') != BOT_USER:
 
                 logger.info('1st emoji has added, set 2nd emoji: %s', emojis[1])
                 post_head = postdata.headers()
@@ -82,7 +83,7 @@ def handler(event, context):
             # the 2nd and the subsequent emoji has added 
             if body.get('event').get('reaction') in emojis and body.get(
                     'event').get('reaction') != emojis[0] and body.get(
-                        'event').get('user', '') == 'U9KRXEKLG':
+                        'event').get('user', '') == BOT_USER:
 
                 logger.info('the 2nd and the subsequent emoji has added')
                 last_count = len(emojis) - 1
