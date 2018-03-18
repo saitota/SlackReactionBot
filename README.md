@@ -13,6 +13,7 @@ Slack BOT needs to be create manually, but AWS side automates environment constr
 ## Requirement
 - AWS Account
 - Serverless Framework
+- [serverless-plugin-aws-alerts](https://serverless.com/blog/serverless-ops-metrics/) (optional)
 - Slack Account
 
 ## Installation
@@ -36,8 +37,8 @@ Slack BOT needs to be create manually, but AWS side automates environment constr
 $ git clone https://github.com/saitota/SlackReactionBot.git
 ```
 
-4. Modify enviroment_dev.yml 's two TOKEN to your token.
-``` enviroment_dev.yml
+4. Modify environment_dev.yml 's two TOKEN to your token.
+``` environment_dev.yml
 OAUTH_TOKEN: 'xoxp-000000000000-000000000000-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x'
 BOT_TOKEN: 'xoxb-000000000000-0x0x0x0x0x0x0x'
 ```

@@ -13,6 +13,7 @@ Slack BOT は手動で設定する必要がありますが、AWS 側は Serverle
 ## Requirement
 - AWS アカウント
 - Serverless Framework
+- [serverless-plugin-aws-alerts](https://serverless.com/blog/serverless-ops-metrics/) (optional)
 - Slack アカウント
 
 ## Installation
@@ -38,7 +39,7 @@ $ git clone https://github.com/saitota/SlackReactionBot.git
 ```
 
 4. Serverless の設定ファイルを編集、先程のトークンで書き換えてください
-``` enviroment_dev.yml
+``` environment_dev.yml
 OAUTH_TOKEN: 'xoxp-000000000000-000000000000-000000000000-0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x0x'
 BOT_TOKEN: 'xoxb-000000000000-0x0x0x0x0x0x0x'
 ```

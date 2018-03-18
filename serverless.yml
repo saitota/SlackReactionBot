@@ -11,8 +11,8 @@ custom:
   defaultProfile: default
   otherfile:
     environment:
-      dev: ${file(./enviroment_dev.yml)}
-      prd: ${file(./enviroment_prd.yml)}
+      dev: ${file(./environment_dev.yml)}
+      prd: ${file(./environment_prd.yml)}
   alerts: # alert plugin
     stages:
       - dev
